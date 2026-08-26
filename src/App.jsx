@@ -1,10 +1,12 @@
+import { AppProvider } from './context/AppContext'
+import Cursos from './views/Cursos'
 import './App.css'
 
 function App() {
   return (
-    <main className="app">
-      <h1>Gestor Académico</h1>
-    </main>
+    <AppProvider>
+      <Cursos />
+    </AppProvider>
   )
 }
 
