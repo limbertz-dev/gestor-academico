@@ -38,10 +38,23 @@ const estudiantesIniciales = [
   },
 ]
 
+const inscripcionesIniciales = [
+  {
+    id: crypto.randomUUID(),
+    estudianteId: estudiantesIniciales[0].id,
+    cursoId: cursosIniciales[0].id,
+  },
+  {
+    id: crypto.randomUUID(),
+    estudianteId: estudiantesIniciales[1].id,
+    cursoId: cursosIniciales[1].id,
+  },
+]
+
 function AppProvider({ children }) {
   const [cursos, setCursos] = useState(cursosIniciales)
   const [estudiantes, setEstudiantes] = useState(estudiantesIniciales)
-  const [inscripciones] = useState([])
+  const [inscripciones, setInscripciones] = useState(inscripcionesIniciales)
 
   function agregarCurso({ nombre, docente }) {
     const nuevoCurso = {
@@ -62,14 +75,14 @@ function AppProvider({ children }) {
   }
 
   function eliminarCurso(id) {
-    const tieneInscripciones = inscripciones.some(
+    const cantidadInscripciones = inscripciones.filter(
       (inscripcion) => inscripcion.cursoId === id,
-    )
+    ).length
 
-    if (tieneInscripciones) {
+    if (cantidadInscripciones > 0) {
       return {
         ok: false,
-        mensaje: 'No se puede eliminar un curso con inscripciones.',
+        mensaje: `No se puede eliminar el curso porque tiene ${cantidadInscripciones} ${cantidadInscripciones === 1 ? 'inscripción' : 'inscripciones'}.`,
       }
     }
 
@@ -104,14 +117,14 @@ function AppProvider({ children }) {
   }
 
   function eliminarEstudiante(id) {
-    const tieneInscripciones = inscripciones.some(
+    const cantidadInscripciones = inscripciones.filter(
       (inscripcion) => inscripcion.estudianteId === id,
-    )
+    ).length
 
-    if (tieneInscripciones) {
+    if (cantidadInscripciones > 0) {
       return {
         ok: false,
-        mensaje: 'No se puede eliminar un estudiante con inscripciones.',
+        mensaje: `No se puede eliminar el estudiante porque tiene ${cantidadInscripciones} ${cantidadInscripciones === 1 ? 'inscripción' : 'inscripciones'}.`,
       }
     }
 
@@ -120,6 +133,35 @@ function AppProvider({ children }) {
     )
 
     return { ok: true }
+  }
+
+  function agregarInscripcion({ estudianteId, cursoId }) {
+    const nuevaInscripcion = {
+      id: crypto.randomUUID(),
+      estudianteId,
+      cursoId,
+    }
+
+    setInscripciones((inscripcionesActuales) => [
+      ...inscripcionesActuales,
+      nuevaInscripcion,
+    ])
+  }
+
+  function editarInscripcion(id, datosInscripcion) {
+    setInscripciones((inscripcionesActuales) =>
+      inscripcionesActuales.map((inscripcion) =>
+        inscripcion.id === id
+          ? { ...inscripcion, ...datosInscripcion }
+          : inscripcion,
+      ),
+    )
+  }
+
+  function eliminarInscripcion(id) {
+    setInscripciones((inscripcionesActuales) =>
+      inscripcionesActuales.filter((inscripcion) => inscripcion.id !== id),
+    )
   }
 
   const valor = {
@@ -132,6 +174,9 @@ function AppProvider({ children }) {
     agregarEstudiante,
     editarEstudiante,
     eliminarEstudiante,
+    agregarInscripcion,
+    editarInscripcion,
+    eliminarInscripcion,
   }
 
   return <AppContext.Provider value={valor}>{children}</AppContext.Provider>

@@ -166,3 +166,111 @@ Mantén el único AppProvider existente.
 No realices operaciones Git.
 
 Al terminar, explícame brevemente qué cambiaste.
+
+<!-- promt 2 de correccion de qodo z -->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta nueva observación después de corregir la conservación del
+estado entre vistas:
+
+"Mounted views duplicate form ids. The hidden wrappers keep both Cursos and
+Estudiantes mounted simultaneously, while both forms use identical IDs such
+as nombre, error-nombre, etc. Labels and aria-describedby can resolve to the
+wrong elements."
+
+Corrige únicamente esta observación.
+
+Mantén la solución actual que conserva ambas vistas montadas y utiliza hidden
+para cambiar entre Cursos y Estudiantes.
+
+Haz que todos los id, htmlFor y aria-describedby de los formularios sean
+únicos por entidad.
+
+Por ejemplo:
+
+- curso-nombre
+- curso-docente
+- curso-error-nombre
+- estudiante-nombre
+- estudiante-correo
+- estudiante-error-nombre
+- estudiante-error-correo
+
+Asegúrate de actualizar correctamente las referencias entre label, input y
+mensajes de error.
+
+No implementes Inscripciones.
+No cambies la arquitectura de navegación.
+No instales dependencias.
+No agregues funcionalidades.
+No realices operaciones Git.
+
+Al terminar, explícame brevemente qué modificaste.
+
+
+
+
+Lee primero AGENTS.md y respeta estrictamente todas sus reglas.
+
+Implementa únicamente la Feature 3: ABM de Inscripciones.
+
+Ya existen Cursos y Estudiantes dentro del único AppContext.
+Extiende ese mismo Context.
+
+1. Agrega el estado inscripciones y las funciones:
+- agregarInscripcion
+- editarInscripcion
+- eliminarInscripcion
+
+2. Modelo:
+- id con crypto.randomUUID()
+- estudianteId
+- cursoId
+
+3. Agrega 2 inscripciones iniciales utilizando estudiantes y cursos existentes.
+
+4. Crea src/components/InscripcionForm.jsx.
+
+Debe tener:
+- select de estudiante
+- select de curso
+
+Validaciones:
+- estudiante obligatorio
+- curso obligatorio
+- no permitir que un estudiante esté inscrito dos veces en el mismo curso
+- al editar una inscripción, excluir la inscripción actual de esta comparación
+
+5. Crea src/components/InscripcionList.jsx.
+
+En lugar de mostrar IDs, debe mostrar:
+- nombre del estudiante
+- nombre del curso
+
+Debe permitir editar y eliminar.
+Solicitar confirmación antes de eliminar.
+
+6. Crea src/views/Inscripciones.jsx.
+
+7. Agrega integridad referencial:
+
+No permitir eliminar un estudiante que tenga inscripciones.
+Mostrar un mensaje específico indicando cuántas inscripciones tiene.
+
+No permitir eliminar un curso que tenga inscripciones.
+Mostrar un mensaje específico indicando cuántas inscripciones tiene.
+
+8. En App.jsx agrega el menú final:
+
+Cursos | Estudiantes | Inscripciones
+
+La navegación debe usar estado local de React.
+No uses react-router.
+
+9. El encabezado debe mostrar:
+"Gestor Académico"
+
+No agregues funcionalidades fuera de AGENTS.md.
+No instales dependencias.
+No realices operaciones Git.
