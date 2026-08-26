@@ -1,3 +1,4 @@
+<!-- promt 0 -->
 Lee primero AGENTS.md y respeta todas sus reglas.
 
 Este es únicamente el proyecto base del Gestor Académico.
@@ -10,6 +11,7 @@ No instales dependencias adicionales.
 
 No realices operaciones Git.
 
+<!-- Promt 1 -->
 
 Lee primero AGENTS.md y respeta estrictamente todas sus reglas.
 
@@ -68,6 +70,7 @@ No realices operaciones Git.
 
 Al terminar, indícame brevemente qué archivos modificaste.
 
+<!-- Promt 2 -->
 
 Lee primero AGENTS.md y respeta todas sus reglas.
 
@@ -116,3 +119,26 @@ No implementes Inscripciones.
 No agregues todavía el menú final.
 No instales dependencias.
 No realices operaciones Git.
+
+<!-- promt 2 de correccion de qodo -->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta observación en el Pull Request de la Feature 2:
+
+"App lacks view state. App directly renders only Estudiantes and has no local
+state or conditional rendering for Cursos, Estudiantes, and Inscripciones.
+This prevents the required state-driven main-view navigation."
+
+Corrige únicamente esta observación.
+
+Implementa en App.jsx navegación mediante estado local de React entre las
+vistas Cursos y Estudiantes, conservando el único AppProvider existente.
+
+No implementes Inscripciones ni agregues una tercera vista.
+No uses react-router.
+No instales dependencias.
+No modifiques funcionalidades no relacionadas.
+No realices operaciones Git.
+
+Al finalizar, explícame brevemente qué cambiaste.
