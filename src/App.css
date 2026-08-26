@@ -92,7 +92,8 @@
   font-weight: 700;
 }
 
-.campo input {
+.campo input,
+.campo select {
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 6px;
@@ -102,7 +103,8 @@
   background: #ffffff;
 }
 
-.campo input:focus {
+.campo input:focus,
+.campo select:focus {
   border-color: #2563eb;
   outline: 3px solid rgb(37 99 235 / 0.16);
 }

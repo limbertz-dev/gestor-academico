@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AppProvider } from './context/AppContext'
 import Cursos from './views/Cursos'
 import Estudiantes from './views/Estudiantes'
+import Inscripciones from './views/Inscripciones'
 import './App.css'
 
 function App() {
@@ -26,6 +27,14 @@ function App() {
         >
           Estudiantes
         </button>
+        <button
+          type="button"
+          className={vistaActual === 'inscripciones' ? 'activo' : ''}
+          onClick={() => setVistaActual('inscripciones')}
+          aria-pressed={vistaActual === 'inscripciones'}
+        >
+          Inscripciones
+        </button>
       </nav>
 
       <div hidden={vistaActual !== 'cursos'}>
@@ -33,6 +42,9 @@ function App() {
       </div>
       <div hidden={vistaActual !== 'estudiantes'}>
         <Estudiantes />
+      </div>
+      <div hidden={vistaActual !== 'inscripciones'}>
+        <Inscripciones />
       </div>
     </AppProvider>
   )

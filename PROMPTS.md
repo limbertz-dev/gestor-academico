@@ -120,7 +120,7 @@ No agregues todavía el menú final.
 No instales dependencias.
 No realices operaciones Git.
 
-<!-- promt 2 de correccion de qodo -->
+<!-- fix promt 2.1 -->
 
 Lee primero AGENTS.md.
 
@@ -143,7 +143,7 @@ No realices operaciones Git.
 
 Al finalizar, explícame brevemente qué cambiaste.
 
-<!-- promt 2 de correccion de qodo 2 -->
+<!-- fix promt 2.2 -->
 
 Lee primero AGENTS.md.
 
@@ -166,3 +166,141 @@ Mantén el único AppProvider existente.
 No realices operaciones Git.
 
 Al terminar, explícame brevemente qué cambiaste.
+
+<!-- fix promt 2.3 -->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta nueva observación después de corregir la conservación del
+estado entre vistas:
+
+"Mounted views duplicate form ids. The hidden wrappers keep both Cursos and
+Estudiantes mounted simultaneously, while both forms use identical IDs such
+as nombre, error-nombre, etc. Labels and aria-describedby can resolve to the
+wrong elements."
+
+Corrige únicamente esta observación.
+
+Mantén la solución actual que conserva ambas vistas montadas y utiliza hidden
+para cambiar entre Cursos y Estudiantes.
+
+Haz que todos los id, htmlFor y aria-describedby de los formularios sean
+únicos por entidad.
+
+Por ejemplo:
+
+- curso-nombre
+- curso-docente
+- curso-error-nombre
+- estudiante-nombre
+- estudiante-correo
+- estudiante-error-nombre
+- estudiante-error-correo
+
+Asegúrate de actualizar correctamente las referencias entre label, input y
+mensajes de error.
+
+No implementes Inscripciones.
+No cambies la arquitectura de navegación.
+No instales dependencias.
+No agregues funcionalidades.
+No realices operaciones Git.
+
+Al terminar, explícame brevemente qué modificaste.
+
+<!-- promt 3-->
+
+Lee primero AGENTS.md y respeta estrictamente todas sus reglas.
+
+Implementa únicamente la Feature 3: ABM de Inscripciones.
+
+Ya existen Cursos y Estudiantes dentro del único AppContext.
+Extiende ese mismo Context.
+
+1. Agrega el estado inscripciones y las funciones:
+- agregarInscripcion
+- editarInscripcion
+- eliminarInscripcion
+
+2. Modelo:
+- id con crypto.randomUUID()
+- estudianteId
+- cursoId
+
+3. Agrega 2 inscripciones iniciales utilizando estudiantes y cursos existentes.
+
+4. Crea src/components/InscripcionForm.jsx.
+
+Debe tener:
+- select de estudiante
+- select de curso
+
+Validaciones:
+- estudiante obligatorio
+- curso obligatorio
+- no permitir que un estudiante esté inscrito dos veces en el mismo curso
+- al editar una inscripción, excluir la inscripción actual de esta comparación
+
+5. Crea src/components/InscripcionList.jsx.
+
+En lugar de mostrar IDs, debe mostrar:
+- nombre del estudiante
+- nombre del curso
+
+Debe permitir editar y eliminar.
+Solicitar confirmación antes de eliminar.
+
+6. Crea src/views/Inscripciones.jsx.
+
+7. Agrega integridad referencial:
+
+No permitir eliminar un estudiante que tenga inscripciones.
+Mostrar un mensaje específico indicando cuántas inscripciones tiene.
+
+No permitir eliminar un curso que tenga inscripciones.
+Mostrar un mensaje específico indicando cuántas inscripciones tiene.
+
+8. En App.jsx agrega el menú final:
+
+Cursos | Estudiantes | Inscripciones
+
+La navegación debe usar estado local de React.
+No uses react-router.
+
+9. El encabezado debe mostrar:
+"Gestor Académico"
+
+No agregues funcionalidades fuera de AGENTS.md.
+No instales dependencias.
+No realices operaciones Git.
+
+<!-- fix promt 3.1-->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta observación en el Pull Request de la Feature 3:
+
+"AppContext permits duplicate enrollments. The global state mutation API
+appends and updates inscripciones without enforcing uniqueness of the
+(estudianteId, cursoId) pair; the only duplicate check is in one UI form and
+can be bypassed by any other context consumer."
+
+Corrige únicamente esta observación.
+
+Implementa también en AppContext.jsx la regla de negocio que impide que exista
+más de una inscripción con la misma combinación estudianteId + cursoId.
+
+La validación debe aplicarse tanto al agregar como al editar una inscripción.
+
+Al editar, excluye la propia inscripción de la comparación para evitar que
+colisione consigo misma.
+
+Mantén también la validación existente en el formulario para conservar la
+retroalimentación inmediata al usuario.
+
+No agregues nuevas funcionalidades.
+No cambies la arquitectura del proyecto.
+No instales dependencias.
+No realices operaciones Git.
+
+Al finalizar, explícame brevemente qué modificaste.
