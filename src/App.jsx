@@ -28,7 +28,12 @@ function App() {
         </button>
       </nav>
 
-      {vistaActual === 'cursos' ? <Cursos /> : <Estudiantes />}
+      <div hidden={vistaActual !== 'cursos'}>
+        <Cursos />
+      </div>
+      <div hidden={vistaActual !== 'estudiantes'}>
+        <Estudiantes />
+      </div>
     </AppProvider>
   )
 }

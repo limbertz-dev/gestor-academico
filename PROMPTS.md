@@ -142,3 +142,27 @@ No modifiques funcionalidades no relacionadas.
 No realices operaciones Git.
 
 Al finalizar, explícame brevemente qué cambiaste.
+
+<!-- promt 2 de correccion de qodo 2 -->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta observación después de la segunda revisión:
+
+"Switching views discards form state. The conditional render unmounts the
+current view when switching between Cursos and Estudiantes, so an unfinished
+edit, partially entered form, or validation state is lost when the user returns."
+
+Corrige únicamente esta observación.
+
+La navegación entre Cursos y Estudiantes debe conservar el estado temporal de
+los formularios al cambiar de vista.
+
+No implementes Inscripciones.
+No agregues nuevas funcionalidades.
+No uses react-router.
+No instales dependencias.
+Mantén el único AppProvider existente.
+No realices operaciones Git.
+
+Al terminar, explícame brevemente qué cambiaste.
