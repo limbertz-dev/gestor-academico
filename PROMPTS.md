@@ -120,7 +120,7 @@ No agregues todavía el menú final.
 No instales dependencias.
 No realices operaciones Git.
 
-<!-- promt 2 de correccion de qodo -->
+<!-- fix promt 2.1 -->
 
 Lee primero AGENTS.md.
 
@@ -143,7 +143,7 @@ No realices operaciones Git.
 
 Al finalizar, explícame brevemente qué cambiaste.
 
-<!-- promt 2 de correccion de qodo 2 -->
+<!-- fix promt 2.2 -->
 
 Lee primero AGENTS.md.
 
@@ -167,7 +167,7 @@ No realices operaciones Git.
 
 Al terminar, explícame brevemente qué cambiaste.
 
-<!-- promt 2 de correccion de qodo z -->
+<!-- fix promt 2.3 -->
 
 Lee primero AGENTS.md.
 
@@ -208,8 +208,7 @@ No realices operaciones Git.
 
 Al terminar, explícame brevemente qué modificaste.
 
-
-
+<!-- promt 3-->
 
 Lee primero AGENTS.md y respeta estrictamente todas sus reglas.
 
@@ -274,3 +273,34 @@ No uses react-router.
 No agregues funcionalidades fuera de AGENTS.md.
 No instales dependencias.
 No realices operaciones Git.
+
+<!-- fix promt 3.1-->
+
+Lee primero AGENTS.md.
+
+Qodo encontró esta observación en el Pull Request de la Feature 3:
+
+"AppContext permits duplicate enrollments. The global state mutation API
+appends and updates inscripciones without enforcing uniqueness of the
+(estudianteId, cursoId) pair; the only duplicate check is in one UI form and
+can be bypassed by any other context consumer."
+
+Corrige únicamente esta observación.
+
+Implementa también en AppContext.jsx la regla de negocio que impide que exista
+más de una inscripción con la misma combinación estudianteId + cursoId.
+
+La validación debe aplicarse tanto al agregar como al editar una inscripción.
+
+Al editar, excluye la propia inscripción de la comparación para evitar que
+colisione consigo misma.
+
+Mantén también la validación existente en el formulario para conservar la
+retroalimentación inmediata al usuario.
+
+No agregues nuevas funcionalidades.
+No cambies la arquitectura del proyecto.
+No instales dependencias.
+No realices operaciones Git.
+
+Al finalizar, explícame brevemente qué modificaste.

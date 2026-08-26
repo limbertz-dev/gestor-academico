@@ -135,7 +135,23 @@ function AppProvider({ children }) {
     return { ok: true }
   }
 
+  function existeInscripcionDuplicada({ estudianteId, cursoId }, idActual) {
+    return inscripciones.some(
+      (inscripcion) =>
+        inscripcion.estudianteId === estudianteId &&
+        inscripcion.cursoId === cursoId &&
+        inscripcion.id !== idActual,
+    )
+  }
+
   function agregarInscripcion({ estudianteId, cursoId }) {
+    if (existeInscripcionDuplicada({ estudianteId, cursoId })) {
+      return {
+        ok: false,
+        mensaje: 'El estudiante ya está inscrito en este curso.',
+      }
+    }
+
     const nuevaInscripcion = {
       id: crypto.randomUUID(),
       estudianteId,
@@ -146,9 +162,18 @@ function AppProvider({ children }) {
       ...inscripcionesActuales,
       nuevaInscripcion,
     ])
+
+    return { ok: true }
   }
 
   function editarInscripcion(id, datosInscripcion) {
+    if (existeInscripcionDuplicada(datosInscripcion, id)) {
+      return {
+        ok: false,
+        mensaje: 'El estudiante ya está inscrito en este curso.',
+      }
+    }
+
     setInscripciones((inscripcionesActuales) =>
       inscripcionesActuales.map((inscripcion) =>
         inscripcion.id === id
@@ -156,6 +181,8 @@ function AppProvider({ children }) {
           : inscripcion,
       ),
     )
+
+    return { ok: true }
   }
 
   function eliminarInscripcion(id) {
