@@ -48,10 +48,14 @@ function CursoForm({ cursoEditando, onGuardar, onCancelar }) {
       return
     }
 
-    onGuardar({
+    const resultado = onGuardar({
       nombre: formulario.nombre.trim(),
       docente: formulario.docente.trim(),
     })
+
+    if (!resultado.ok) {
+      return
+    }
 
     setFormulario(formularioInicial)
     setErrores({})

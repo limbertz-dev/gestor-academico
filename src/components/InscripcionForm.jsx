@@ -66,10 +66,14 @@ function InscripcionForm({
       return
     }
 
-    onGuardar({
+    const resultado = onGuardar({
       estudianteId: formulario.estudianteId,
       cursoId: formulario.cursoId,
     })
+
+    if (!resultado.ok) {
+      return
+    }
 
     setFormulario(formularioInicial)
     setErrores({})

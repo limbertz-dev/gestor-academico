@@ -12,14 +12,25 @@ function Estudiantes() {
     agregarEstudiante,
     editarEstudiante,
   ) {
+    let resultado
+
     if (estudianteEditando) {
-      editarEstudiante(estudianteEditando.id, datosEstudiante)
-      setEstudianteEditando(null)
+      resultado = editarEstudiante(estudianteEditando.id, datosEstudiante)
     } else {
-      agregarEstudiante(datosEstudiante)
+      resultado = agregarEstudiante(datosEstudiante)
+    }
+
+    if (!resultado.ok) {
+      setMensajeError(resultado.mensaje)
+      return resultado
+    }
+
+    if (estudianteEditando) {
+      setEstudianteEditando(null)
     }
 
     setMensajeError('')
+    return resultado
   }
 
   function seleccionarEstudiante(estudiante) {

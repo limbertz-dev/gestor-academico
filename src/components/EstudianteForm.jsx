@@ -61,10 +61,14 @@ function EstudianteForm({
       return
     }
 
-    onGuardar({
+    const resultado = onGuardar({
       nombre: formulario.nombre.trim(),
       correo: formulario.correo.trim(),
     })
+
+    if (!resultado.ok) {
+      return
+    }
 
     setFormulario(formularioInicial)
     setErrores({})

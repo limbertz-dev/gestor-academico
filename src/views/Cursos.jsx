@@ -8,14 +8,25 @@ function Cursos() {
   const [mensajeError, setMensajeError] = useState('')
 
   function guardarCurso(datosCurso, agregarCurso, editarCurso) {
+    let resultado
+
     if (cursoEditando) {
-      editarCurso(cursoEditando.id, datosCurso)
-      setCursoEditando(null)
+      resultado = editarCurso(cursoEditando.id, datosCurso)
     } else {
-      agregarCurso(datosCurso)
+      resultado = agregarCurso(datosCurso)
+    }
+
+    if (!resultado.ok) {
+      setMensajeError(resultado.mensaje)
+      return resultado
+    }
+
+    if (cursoEditando) {
+      setCursoEditando(null)
     }
 
     setMensajeError('')
+    return resultado
   }
 
   function seleccionarCurso(curso) {

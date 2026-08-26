@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useRef, useState } from 'react'
 
 const AppContext = createContext(null)
 
@@ -55,27 +55,91 @@ function AppProvider({ children }) {
   const [cursos, setCursos] = useState(cursosIniciales)
   const [estudiantes, setEstudiantes] = useState(estudiantesIniciales)
   const [inscripciones, setInscripciones] = useState(inscripcionesIniciales)
+  const cursosRef = useRef(cursosIniciales)
+  const estudiantesRef = useRef(estudiantesIniciales)
+  const inscripcionesRef = useRef(inscripcionesIniciales)
 
-  function agregarCurso({ nombre, docente }) {
-    const nuevoCurso = {
-      id: crypto.randomUUID(),
-      nombre,
-      docente,
+  function normalizarTexto(valor) {
+    return typeof valor === 'string' ? valor.trim() : ''
+  }
+
+  function actualizarCursos(nuevosCursos) {
+    cursosRef.current = nuevosCursos
+    setCursos(nuevosCursos)
+  }
+
+  function actualizarEstudiantes(nuevosEstudiantes) {
+    estudiantesRef.current = nuevosEstudiantes
+    setEstudiantes(nuevosEstudiantes)
+  }
+
+  function actualizarInscripciones(nuevasInscripciones) {
+    inscripcionesRef.current = nuevasInscripciones
+    setInscripciones(nuevasInscripciones)
+  }
+
+  function validarCurso({ nombre, docente }) {
+    const nombreNormalizado = normalizarTexto(nombre)
+    const docenteNormalizado = normalizarTexto(docente)
+
+    if (!nombreNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El nombre del curso es obligatorio.',
+      }
     }
 
-    setCursos((cursosActuales) => [...cursosActuales, nuevoCurso])
+    if (!docenteNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El docente del curso es obligatorio.',
+      }
+    }
+
+    return {
+      ok: true,
+      datos: {
+        nombre: nombreNormalizado,
+        docente: docenteNormalizado,
+      },
+    }
+  }
+
+  function agregarCurso({ nombre, docente }) {
+    const validacion = validarCurso({ nombre, docente })
+
+    if (!validacion.ok) {
+      return validacion
+    }
+
+    const nuevoCurso = {
+      id: crypto.randomUUID(),
+      ...validacion.datos,
+    }
+
+    actualizarCursos([...cursosRef.current, nuevoCurso])
+
+    return { ok: true }
   }
 
   function editarCurso(id, datosCurso) {
-    setCursos((cursosActuales) =>
-      cursosActuales.map((curso) =>
-        curso.id === id ? { ...curso, ...datosCurso } : curso,
+    const validacion = validarCurso(datosCurso)
+
+    if (!validacion.ok) {
+      return validacion
+    }
+
+    actualizarCursos(
+      cursosRef.current.map((curso) =>
+        curso.id === id ? { ...curso, ...validacion.datos } : curso,
       ),
     )
+
+    return { ok: true }
   }
 
   function eliminarCurso(id) {
-    const cantidadInscripciones = inscripciones.filter(
+    const cantidadInscripciones = inscripcionesRef.current.filter(
       (inscripcion) => inscripcion.cursoId === id,
     ).length
 
@@ -86,38 +150,92 @@ function AppProvider({ children }) {
       }
     }
 
-    setCursos((cursosActuales) =>
-      cursosActuales.filter((curso) => curso.id !== id),
+    actualizarCursos(cursosRef.current.filter((curso) => curso.id !== id))
+
+    return { ok: true }
+  }
+
+  function existeCorreoDuplicado(correo, idActual) {
+    const correoNormalizado = normalizarTexto(correo).toLowerCase()
+
+    return estudiantesRef.current.some(
+      (estudiante) =>
+        estudiante.correo.trim().toLowerCase() === correoNormalizado &&
+        estudiante.id !== idActual,
+    )
+  }
+
+  function validarEstudiante({ nombre, correo }, idActual) {
+    const nombreNormalizado = normalizarTexto(nombre)
+    const correoNormalizado = normalizarTexto(correo)
+
+    if (!nombreNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El nombre del estudiante es obligatorio.',
+      }
+    }
+
+    if (!correoNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El correo del estudiante es obligatorio.',
+      }
+    }
+
+    if (existeCorreoDuplicado(correoNormalizado, idActual)) {
+      return {
+        ok: false,
+        mensaje: 'Ya existe un estudiante con este correo.',
+      }
+    }
+
+    return {
+      ok: true,
+      datos: {
+        nombre: nombreNormalizado,
+        correo: correoNormalizado,
+      },
+    }
+  }
+
+  function agregarEstudiante({ nombre, correo }) {
+    const validacion = validarEstudiante({ nombre, correo })
+
+    if (!validacion.ok) {
+      return validacion
+    }
+
+    const nuevoEstudiante = {
+      id: crypto.randomUUID(),
+      ...validacion.datos,
+    }
+
+    actualizarEstudiantes([...estudiantesRef.current, nuevoEstudiante])
+
+    return { ok: true }
+  }
+
+  function editarEstudiante(id, datosEstudiante) {
+    const validacion = validarEstudiante(datosEstudiante, id)
+
+    if (!validacion.ok) {
+      return validacion
+    }
+
+    actualizarEstudiantes(
+      estudiantesRef.current.map((estudiante) =>
+        estudiante.id === id
+          ? { ...estudiante, ...validacion.datos }
+          : estudiante,
+      ),
     )
 
     return { ok: true }
   }
 
-  function agregarEstudiante({ nombre, correo }) {
-    const nuevoEstudiante = {
-      id: crypto.randomUUID(),
-      nombre,
-      correo,
-    }
-
-    setEstudiantes((estudiantesActuales) => [
-      ...estudiantesActuales,
-      nuevoEstudiante,
-    ])
-  }
-
-  function editarEstudiante(id, datosEstudiante) {
-    setEstudiantes((estudiantesActuales) =>
-      estudiantesActuales.map((estudiante) =>
-        estudiante.id === id
-          ? { ...estudiante, ...datosEstudiante }
-          : estudiante,
-      ),
-    )
-  }
-
   function eliminarEstudiante(id) {
-    const cantidadInscripciones = inscripciones.filter(
+    const cantidadInscripciones = inscripcionesRef.current.filter(
       (inscripcion) => inscripcion.estudianteId === id,
     ).length
 
@@ -128,15 +246,15 @@ function AppProvider({ children }) {
       }
     }
 
-    setEstudiantes((estudiantesActuales) =>
-      estudiantesActuales.filter((estudiante) => estudiante.id !== id),
+    actualizarEstudiantes(
+      estudiantesRef.current.filter((estudiante) => estudiante.id !== id),
     )
 
     return { ok: true }
   }
 
   function existeInscripcionDuplicada({ estudianteId, cursoId }, idActual) {
-    return inscripciones.some(
+    return inscripcionesRef.current.some(
       (inscripcion) =>
         inscripcion.estudianteId === estudianteId &&
         inscripcion.cursoId === cursoId &&
@@ -144,40 +262,67 @@ function AppProvider({ children }) {
     )
   }
 
-  function agregarInscripcion({ estudianteId, cursoId }) {
-    if (existeInscripcionDuplicada({ estudianteId, cursoId })) {
+  function validarInscripcion({ estudianteId, cursoId }, idActual) {
+    const estudianteNormalizado = normalizarTexto(estudianteId)
+    const cursoNormalizado = normalizarTexto(cursoId)
+
+    if (!estudianteNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El estudiante es obligatorio.',
+      }
+    }
+
+    if (!cursoNormalizado) {
+      return {
+        ok: false,
+        mensaje: 'El curso es obligatorio.',
+      }
+    }
+
+    const datos = {
+      estudianteId: estudianteNormalizado,
+      cursoId: cursoNormalizado,
+    }
+
+    if (existeInscripcionDuplicada(datos, idActual)) {
       return {
         ok: false,
         mensaje: 'El estudiante ya está inscrito en este curso.',
       }
     }
 
-    const nuevaInscripcion = {
-      id: crypto.randomUUID(),
-      estudianteId,
-      cursoId,
+    return { ok: true, datos }
+  }
+
+  function agregarInscripcion({ estudianteId, cursoId }) {
+    const validacion = validarInscripcion({ estudianteId, cursoId })
+
+    if (!validacion.ok) {
+      return validacion
     }
 
-    setInscripciones((inscripcionesActuales) => [
-      ...inscripcionesActuales,
-      nuevaInscripcion,
-    ])
+    const nuevaInscripcion = {
+      id: crypto.randomUUID(),
+      ...validacion.datos,
+    }
+
+    actualizarInscripciones([...inscripcionesRef.current, nuevaInscripcion])
 
     return { ok: true }
   }
 
   function editarInscripcion(id, datosInscripcion) {
-    if (existeInscripcionDuplicada(datosInscripcion, id)) {
-      return {
-        ok: false,
-        mensaje: 'El estudiante ya está inscrito en este curso.',
-      }
+    const validacion = validarInscripcion(datosInscripcion, id)
+
+    if (!validacion.ok) {
+      return validacion
     }
 
-    setInscripciones((inscripcionesActuales) =>
-      inscripcionesActuales.map((inscripcion) =>
+    actualizarInscripciones(
+      inscripcionesRef.current.map((inscripcion) =>
         inscripcion.id === id
-          ? { ...inscripcion, ...datosInscripcion }
+          ? { ...inscripcion, ...validacion.datos }
           : inscripcion,
       ),
     )
@@ -186,9 +331,11 @@ function AppProvider({ children }) {
   }
 
   function eliminarInscripcion(id) {
-    setInscripciones((inscripcionesActuales) =>
-      inscripcionesActuales.filter((inscripcion) => inscripcion.id !== id),
+    actualizarInscripciones(
+      inscripcionesRef.current.filter((inscripcion) => inscripcion.id !== id),
     )
+
+    return { ok: true }
   }
 
   const valor = {

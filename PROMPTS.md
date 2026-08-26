@@ -303,4 +303,123 @@ No cambies la arquitectura del proyecto.
 No instales dependencias.
 No realices operaciones Git.
 
+<!-- fix promt develop 1 -->
+
 Al finalizar, explícame brevemente qué modificaste.
+
+Lee primero AGENTS.md y respeta estrictamente todas sus reglas.
+
+Estamos corrigiendo el Pull Request FINAL de develop hacia main.
+
+Qodo encontró 6 observaciones de corrección en el código integrado.
+Corrige TODAS en una sola revisión, sin agregar nuevas funcionalidades.
+
+1. INSCRIPCIONES — estado obsoleto en validación de duplicados
+
+Qodo indicó que agregarInscripcion y editarInscripcion comprueban la
+combinación estudianteId + cursoId utilizando una captura antigua del estado
+inscripciones antes de ejecutar la actualización.
+
+Corrige la lógica para que la unicidad de estudianteId + cursoId se valide
+contra el estado más reciente, incluso si se realizan varias mutaciones antes
+de un nuevo render de React.
+
+No introduzcas efectos secundarios dentro de un updater de estado de React.
+Mantén una solución simple y segura.
+
+La regla debe seguir siendo:
+un estudiante no puede estar inscrito dos veces en el mismo curso.
+
+Al editar, excluir la propia inscripción de la comparación.
+
+2. CURSOS — validación también en AppContext
+
+Actualmente CursoForm valida los campos, pero agregarCurso y editarCurso
+también deben proteger la regla de negocio.
+
+En AppContext.jsx, tanto al crear como al editar un Curso:
+- nombre es obligatorio
+- nombre no puede ser null, vacío ni solo espacios
+- docente es obligatorio
+- docente no puede ser null, vacío ni solo espacios
+
+Mantén también las validaciones existentes del formulario.
+
+3. ESTUDIANTES — campos obligatorios también en AppContext
+
+En agregarEstudiante y editarEstudiante:
+- nombre es obligatorio
+- nombre no puede ser null, vacío ni solo espacios
+- correo es obligatorio
+- correo no puede ser null, vacío ni solo espacios
+
+Mantén también la validación inmediata del formulario.
+
+4. ESTUDIANTES — correo único también en AppContext
+
+AppContext debe impedir correos duplicados tanto al crear como al editar.
+
+Normaliza el correo usando trim y comparación sin distinguir mayúsculas y
+minúsculas.
+
+Ejemplo:
+ANA@EMAIL.COM
+ana@email.com
+
+deben considerarse el mismo correo.
+
+Al editar, excluir al propio estudiante de la comparación.
+
+5. INSCRIPCIONES — campos obligatorios también en AppContext
+
+En agregarInscripcion y editarInscripcion:
+- estudianteId es obligatorio
+- cursoId es obligatorio
+- rechazar null, undefined o string vacío
+
+Conservar también la validación de inscripción duplicada.
+
+6. INSCRIPCIONES — no descartar errores devueltos por AppContext
+
+Actualmente la vista/formulario de Inscripciones ignora errores devueltos
+por agregarInscripcion o editarInscripcion y limpia el formulario aunque la
+operación haya fallado.
+
+Corrige este flujo.
+
+Las operaciones del Context deben devolver un resultado consistente, por
+ejemplo:
+{ ok: true }
+o
+{ ok: false, mensaje: "mensaje específico" }
+
+Inscripciones.jsx y/o InscripcionForm.jsx deben comprobar ese resultado.
+
+Si una operación falla:
+- mostrar el mensaje específico al usuario
+- NO limpiar el formulario
+- NO salir del modo edición
+- conservar los valores introducidos
+
+Solo después de una operación exitosa:
+- limpiar el formulario
+- salir del modo edición cuando corresponda
+
+Revisa también los consumidores de las operaciones de Cursos y Estudiantes
+para que, si las mutaciones del Context devuelven un error, no se descarte
+silenciosamente.
+
+IMPORTANTE:
+
+- Mantén un único AppContext.
+- No agregues backend ni persistencia.
+- No instales dependencias.
+- No uses Redux ni otras librerías.
+- No agregues nuevas funcionalidades.
+- No cambies el diseño innecesariamente.
+- No realices operaciones Git.
+
+Al terminar:
+1. Indícame qué archivos modificaste.
+2. Explica cómo resolviste cada una de las 6 observaciones.
+3. Confirma que npm run build termina correctamente.

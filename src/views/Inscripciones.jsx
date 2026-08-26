@@ -5,26 +5,42 @@ import { AppContextConsumer } from '../context/AppContext'
 
 function Inscripciones() {
   const [inscripcionEditando, setInscripcionEditando] = useState(null)
+  const [mensajeError, setMensajeError] = useState('')
 
   function guardarInscripcion(
     datosInscripcion,
     agregarInscripcion,
     editarInscripcion,
   ) {
+    let resultado
+
     if (inscripcionEditando) {
-      editarInscripcion(inscripcionEditando.id, datosInscripcion)
-      setInscripcionEditando(null)
+      resultado = editarInscripcion(inscripcionEditando.id, datosInscripcion)
     } else {
-      agregarInscripcion(datosInscripcion)
+      resultado = agregarInscripcion(datosInscripcion)
     }
+
+    if (!resultado.ok) {
+      setMensajeError(resultado.mensaje)
+      return resultado
+    }
+
+    if (inscripcionEditando) {
+      setInscripcionEditando(null)
+    }
+
+    setMensajeError('')
+    return resultado
   }
 
   function seleccionarInscripcion(inscripcion) {
     setInscripcionEditando(inscripcion)
+    setMensajeError('')
   }
 
   function cancelarEdicion() {
     setInscripcionEditando(null)
+    setMensajeError('')
   }
 
   function quitarInscripcion(id, eliminarInscripcion) {
@@ -69,6 +85,7 @@ function Inscripciones() {
             />
 
             <div className="listado-entidades">
+              {mensajeError && <p className="alerta">{mensajeError}</p>}
               <InscripcionList
                 inscripciones={inscripciones}
                 estudiantes={estudiantes}
