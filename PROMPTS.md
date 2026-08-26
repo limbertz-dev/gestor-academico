@@ -423,3 +423,40 @@ Al terminar:
 1. Indícame qué archivos modificaste.
 2. Explica cómo resolviste cada una de las 6 observaciones.
 3. Confirma que npm run build termina correctamente.
+
+<!-- fix promt develop 2 -->
+
+Lee primero AGENTS.md.
+
+En la revisión final, Qodo dejó únicamente este bug pendiente:
+
+"Missing edits report success"
+
+Corrige únicamente esta observación.
+
+Revisa las operaciones de edición de AppContext.jsx para Cursos,
+Estudiantes e Inscripciones.
+
+Una operación de edición solo puede devolver éxito si el registro con el ID
+recibido realmente existe y fue actualizado.
+
+Si el ID no existe:
+- no modificar el estado
+- devolver { ok: false, mensaje: "..." }
+- usar un mensaje específico en español
+
+Si existe:
+- aplicar las validaciones actuales
+- actualizar el registro
+- devolver { ok: true }
+
+Asegúrate también de que las vistas respeten el resultado:
+- si ok es false, mostrar el mensaje y conservar el formulario
+- si ok es true, recién limpiar el formulario y salir del modo edición
+
+No agregues funcionalidades nuevas.
+No cambies la arquitectura.
+No instales dependencias.
+No realices operaciones Git.
+
+Al terminar, indícame qué archivos modificaste y cómo resolviste el bug.

@@ -123,6 +123,15 @@ function AppProvider({ children }) {
   }
 
   function editarCurso(id, datosCurso) {
+    const cursoExiste = cursosRef.current.some((curso) => curso.id === id)
+
+    if (!cursoExiste) {
+      return {
+        ok: false,
+        mensaje: 'No se puede editar el curso porque no existe.',
+      }
+    }
+
     const validacion = validarCurso(datosCurso)
 
     if (!validacion.ok) {
@@ -217,6 +226,17 @@ function AppProvider({ children }) {
   }
 
   function editarEstudiante(id, datosEstudiante) {
+    const estudianteExiste = estudiantesRef.current.some(
+      (estudiante) => estudiante.id === id,
+    )
+
+    if (!estudianteExiste) {
+      return {
+        ok: false,
+        mensaje: 'No se puede editar el estudiante porque no existe.',
+      }
+    }
+
     const validacion = validarEstudiante(datosEstudiante, id)
 
     if (!validacion.ok) {
@@ -313,6 +333,17 @@ function AppProvider({ children }) {
   }
 
   function editarInscripcion(id, datosInscripcion) {
+    const inscripcionExiste = inscripcionesRef.current.some(
+      (inscripcion) => inscripcion.id === id,
+    )
+
+    if (!inscripcionExiste) {
+      return {
+        ok: false,
+        mensaje: 'No se puede editar la inscripción porque no existe.',
+      }
+    }
+
     const validacion = validarInscripcion(datosInscripcion, id)
 
     if (!validacion.ok) {
