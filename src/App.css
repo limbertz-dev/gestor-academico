@@ -1,15 +1,242 @@
 .app {
+  width: min(1120px, 100%);
   min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
 }
 
-.app h1 {
-  margin: 0;
+.navegacion-principal {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.navegacion-principal button {
   color: #1f2937;
-  font-size: clamp(2.25rem, 8vw, 4.5rem);
+  background: #ffffff;
+  border-color: #d1d5db;
+}
+
+.navegacion-principal button.activo {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.encabezado {
+  margin-bottom: 28px;
+}
+
+.encabezado p {
+  margin: 0 0 8px;
+  color: #2563eb;
+  font-size: 0.95rem;
   font-weight: 700;
-  line-height: 1.05;
-  text-align: center;
+}
+
+.encabezado h1,
+.entidad-form h2,
+.curso-form h2,
+.panel h2 {
+  margin: 0;
+  color: #111827;
+}
+
+.encabezado h1 {
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  line-height: 1.1;
+}
+
+.contenido-entidades,
+.contenido-cursos {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.entidad-form,
+.curso-form,
+.panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
+}
+
+.entidad-form,
+.curso-form {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+}
+
+.entidad-form h2,
+.curso-form h2,
+.panel h2 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.campo {
+  display: grid;
+  gap: 7px;
+}
+
+.campo label {
+  color: #374151;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #111827;
+  font: inherit;
+  background: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgb(37 99 235 / 0.16);
+}
+
+.error,
+.alerta {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.92rem;
+}
+
+.acciones-formulario,
+.acciones-tabla {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 9px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 0.25);
+  outline-offset: 2px;
+}
+
+button[type='submit'] {
+  color: #ffffff;
+  background: #2563eb;
+}
+
+.boton-secundario {
+  color: #1f2937;
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.boton-peligro {
+  color: #ffffff;
+  background: #dc2626;
+}
+
+.listado-entidades,
+.listado-cursos {
+  display: grid;
+  gap: 12px;
+}
+
+.alerta {
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #fef2f2;
+}
+
+.panel {
+  overflow: hidden;
+}
+
+.panel h2 {
+  padding: 20px 22px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.estado-vacio {
+  margin: 0;
+  padding: 22px;
+  color: #4b5563;
+}
+
+.tabla-entidades,
+.tabla-cursos {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 18px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: #f9fafb;
+}
+
+td {
+  color: #111827;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .app {
+    padding: 18px 14px 28px;
+  }
+
+  .navegacion-principal {
+    padding: 18px 14px 0;
+  }
+
+  .contenido-entidades,
+  .contenido-cursos {
+    grid-template-columns: 1fr;
+  }
+
+  .entidad-form,
+  .curso-form,
+  .panel h2,
+  .estado-vacio {
+    padding: 18px;
+  }
+
+  th,
+  td {
+    padding: 12px;
+  }
 }
