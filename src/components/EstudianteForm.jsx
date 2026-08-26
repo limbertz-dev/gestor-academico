@@ -77,34 +77,38 @@ function EstudianteForm({
       <h2>{estaEditando ? 'Editar estudiante' : 'Nuevo estudiante'}</h2>
 
       <div className="campo">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="estudiante-nombre">Nombre</label>
         <input
-          id="nombre"
+          id="estudiante-nombre"
           name="nombre"
           type="text"
           value={formulario.nombre}
           onChange={actualizarCampo}
-          aria-describedby={errores.nombre ? 'error-nombre' : undefined}
+          aria-describedby={
+            errores.nombre ? 'estudiante-error-nombre' : undefined
+          }
         />
         {errores.nombre && (
-          <p className="error" id="error-nombre">
+          <p className="error" id="estudiante-error-nombre">
             {errores.nombre}
           </p>
         )}
       </div>
 
       <div className="campo">
-        <label htmlFor="correo">Correo</label>
+        <label htmlFor="estudiante-correo">Correo</label>
         <input
-          id="correo"
+          id="estudiante-correo"
           name="correo"
           type="email"
           value={formulario.correo}
           onChange={actualizarCampo}
-          aria-describedby={errores.correo ? 'error-correo' : undefined}
+          aria-describedby={
+            errores.correo ? 'estudiante-error-correo' : undefined
+          }
         />
         {errores.correo && (
-          <p className="error" id="error-correo">
+          <p className="error" id="estudiante-error-correo">
             {errores.correo}
           </p>
         )}
