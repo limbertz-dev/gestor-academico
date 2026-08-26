@@ -2,7 +2,28 @@
   width: min(1120px, 100%);
   min-height: 100dvh;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 24px 20px 40px;
+}
+
+.navegacion-principal {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 24px 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.navegacion-principal button {
+  color: #1f2937;
+  background: #ffffff;
+  border-color: #d1d5db;
+}
+
+.navegacion-principal button.activo {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
 }
 
 .encabezado {
@@ -17,6 +38,7 @@
 }
 
 .encabezado h1,
+.entidad-form h2,
 .curso-form h2,
 .panel h2 {
   margin: 0;
@@ -28,6 +50,7 @@
   line-height: 1.1;
 }
 
+.contenido-entidades,
 .contenido-cursos {
   display: grid;
   grid-template-columns: minmax(280px, 360px) 1fr;
@@ -35,6 +58,7 @@
   align-items: start;
 }
 
+.entidad-form,
 .curso-form,
 .panel {
   border: 1px solid #e5e7eb;
@@ -43,12 +67,14 @@
   box-shadow: 0 1px 2px rgb(15 23 42 / 0.08);
 }
 
+.entidad-form,
 .curso-form {
   display: grid;
   gap: 18px;
   padding: 22px;
 }
 
+.entidad-form h2,
 .curso-form h2,
 .panel h2 {
   font-size: 1.25rem;
@@ -125,6 +151,7 @@ button[type='submit'] {
   background: #dc2626;
 }
 
+.listado-entidades,
 .listado-cursos {
   display: grid;
   gap: 12px;
@@ -152,6 +179,7 @@ button[type='submit'] {
   color: #4b5563;
 }
 
+.tabla-entidades,
 .tabla-cursos {
   overflow-x: auto;
 }
@@ -186,13 +214,19 @@ tbody tr:last-child td {
 
 @media (max-width: 760px) {
   .app {
-    padding: 28px 14px;
+    padding: 18px 14px 28px;
   }
 
+  .navegacion-principal {
+    padding: 18px 14px 0;
+  }
+
+  .contenido-entidades,
   .contenido-cursos {
     grid-template-columns: 1fr;
   }
 
+  .entidad-form,
   .curso-form,
   .panel h2,
   .estado-vacio {

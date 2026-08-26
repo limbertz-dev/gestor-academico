@@ -64,34 +64,34 @@ function CursoForm({ cursoEditando, onGuardar, onCancelar }) {
       <h2>{estaEditando ? 'Editar curso' : 'Nuevo curso'}</h2>
 
       <div className="campo">
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="curso-nombre">Nombre</label>
         <input
-          id="nombre"
+          id="curso-nombre"
           name="nombre"
           type="text"
           value={formulario.nombre}
           onChange={actualizarCampo}
-          aria-describedby={errores.nombre ? 'error-nombre' : undefined}
+          aria-describedby={errores.nombre ? 'curso-error-nombre' : undefined}
         />
         {errores.nombre && (
-          <p className="error" id="error-nombre">
+          <p className="error" id="curso-error-nombre">
             {errores.nombre}
           </p>
         )}
       </div>
 
       <div className="campo">
-        <label htmlFor="docente">Docente</label>
+        <label htmlFor="curso-docente">Docente</label>
         <input
-          id="docente"
+          id="curso-docente"
           name="docente"
           type="text"
           value={formulario.docente}
           onChange={actualizarCampo}
-          aria-describedby={errores.docente ? 'error-docente' : undefined}
+          aria-describedby={errores.docente ? 'curso-error-docente' : undefined}
         />
         {errores.docente && (
-          <p className="error" id="error-docente">
+          <p className="error" id="curso-error-docente">
             {errores.docente}
           </p>
         )}
